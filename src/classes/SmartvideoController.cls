@@ -1,8 +1,31 @@
 public with sharing class SmartvideoController {
+    public static final String SETTINGS_ENV = 'environment';
     @AuraEnabled(Cacheable=true)
     public static String getVideoAppUrl() {
-        return 'https://videome.leadsecure.com/nextjs/single/smartvideo/?environment=mypurecloud.com';
-        //return 'https://018a-176-12-56-149.ngrok-free.app';
+        String environmentParamValue = getEnvironment(SETTINGS_ENV);
+        return 'https://videome.leadsecure.com/nextjs/single/smartvideo/?environment='
+                + EncodingUtil.urlEncode(environmentParamValue, 'UTF-8');
+    }
+
+    public static String getEnvironment(String settingName) {
+        List<Smartvideo_setting__mdt> settings = [
+                SELECT value__c FROM Smartvideo_Setting__mdt WHERE DeveloperName = :settingName LIMIT 1
+        ];
+
+        if (Test.isRunningTest()) {
+            settings.clear();
+            settings.add(new Smartvideo_Setting__mdt(
+                    Label = 'Environment',
+                    DeveloperName = 'environment',
+                    value__c = 'test-value'
+            ));
+        }
+
+        if (settings.size() != 0) {
+            return settings[0].value__c;
+        }
+
+        return '';
     }
 
     @AuraEnabled
