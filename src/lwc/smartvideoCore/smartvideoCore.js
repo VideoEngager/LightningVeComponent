@@ -18,13 +18,22 @@ export default class SmartvideoCore extends LightningElement {
             const targetElement = this.template.querySelector('iframe');
 
             if (targetElement) {
-                targetElement.src = data;
+                targetElement.src = this.processUrl(data);
             }
 
             this.appUrl = data;
         } else if (error) {
             console.log("Error in getVideoAppUrl", error);
         }
+    }
+
+    processUrl(url) {
+        const urlObj = new URL(url);
+
+        urlObj.searchParams.set('isPopup', 'true');
+        urlObj.searchParams.set('enablePostMessage', 'true');
+
+        return urlObj.toString();
     }
     connectedCallback() {
         this.oneTimeInitialization();
@@ -53,10 +62,10 @@ export default class SmartvideoCore extends LightningElement {
 
     processAppMessage(message) {
         switch (message?.status) {
-            case "CALL_STARTED":
+            case "PRE_CALL":
                 this.utilityBarApi.openUtility();
                 break;
-            case "CALL_ENDED":
+            case "FINISHED":
                 this.utilityBarApi.minimizeUtility();
                 break;
         }
