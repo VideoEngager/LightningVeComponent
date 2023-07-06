@@ -11,6 +11,7 @@
     </types>
     <types>
         <members>SmartvideoController</members>
+        <members>SmartvideoControllerTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -19,6 +20,7 @@
     </types>
     <types>
         <members>Smartvideo_Setting__mdt</members>
+        <members>SmartvideoEvent__e</members>
         <name>CustomObject</name>
     </types>
     <version>57.0</version>
