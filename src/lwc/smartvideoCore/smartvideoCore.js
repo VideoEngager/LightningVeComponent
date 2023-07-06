@@ -14,7 +14,6 @@ export default class SmartvideoCore extends LightningElement {
         this.isLoading = false;
 
         if (data) {
-            console.log("getVideoAppUrl = ", data);
             const targetElement = this.template.querySelector('iframe');
 
             if (targetElement) {
@@ -55,7 +54,7 @@ export default class SmartvideoCore extends LightningElement {
         window.addEventListener("message", (evt) => {
             if (this.appUrl.startsWith(evt.origin)) {
                 this.processAppMessage(evt.data);
-                console.log("Receiving message:", JSON.parse(JSON.stringify(evt.data || "")));
+                console.debug("Receiving message:", JSON.parse(JSON.stringify(evt.data || "")));
             }
         });
     }
@@ -72,12 +71,10 @@ export default class SmartvideoCore extends LightningElement {
 
         // pass the message as platform event
         pushEvent({ name: message?.status, payload: JSON.stringify(message)}).catch(e => {
-            console.log('Unable to push event: ', message.status, JSON.parse(JSON.stringify(message)));
-            console.log('pushEvent error:', e);
+            console.debug('Unable to push event: ', message.status, JSON.parse(JSON.stringify(message)));
+            console.debug('pushEvent error:', e);
         })
     }
 
-    handleIframeOnLoad() {
-        console.log("Iframe has been loaded");
-    }
+    handleIframeOnLoad() {}
 }
