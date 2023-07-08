@@ -1,4 +1,3 @@
-
 ({
     isUtilityBarApiMethod: function (methodName) {
         // All methods and their parameters are available at
