@@ -7,7 +7,7 @@ VideoEngage Salesforce companion component used to enhance CTI with video callin
 ## One click
 Andrew Fawcett's solution for one click install
 
-<a href="https://githubsfdeploy.herokuapp.com">
+<a href="https://githubsfdeploy.herokuapp.com?ref=main">
   <img alt="Deploy to Salesforce"
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
 </a>
