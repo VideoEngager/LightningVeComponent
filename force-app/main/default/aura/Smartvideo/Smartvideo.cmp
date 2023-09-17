@@ -1,4 +1,4 @@
-<aura:component description="Smartvideo" implements="flexipage:availableForAllPageTypes">
+<aura:component description="Smartvideo" implements="flexipage:availableForAllPageTypes" access="global">
     <lightning:utilityBarAPI aura:id="UtilityBarApi" />
     <c:smartvideoCore onutilityBarAPICall="{!c.handleUtilityBarApiCall}"></c:smartvideoCore>
 </aura:component>

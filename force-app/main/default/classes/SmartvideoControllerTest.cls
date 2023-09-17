@@ -6,8 +6,8 @@ private class SmartvideoControllerTest {
 
         String result = SmartvideoController.getVideoAppUrl();
 
-        System.assertNotEquals(null, result);
-        System.assertEquals('https://videome.leadsecure.com/nextjs/single/smartvideo/?environment=test+value', result);
+        System.assertNotEquals(null, result, 'Video App Url should not be NULL');
+        System.assertEquals('https://videome.leadsecure.com/nextjs/single/smartvideo/?environment=test+value', result, 'Unexpected App url value');
 
         Test.stopTest();
     }
@@ -18,18 +18,18 @@ private class SmartvideoControllerTest {
 
         String result = SmartvideoController.getEnvironment(null);
 
-        System.assertNotEquals(null, result);
-        System.assertEquals('', result);
+        System.assertNotEquals(null, result, 'Environment should not be NULL');
+        System.assertEquals('', result, 'Environment must be empty string');
 
         result = SmartvideoController.getEnvironment('test');
 
-        System.assertNotEquals(null, result);
-        System.assertEquals('', result);
+        System.assertNotEquals(null, result, 'Environment should not be NULL');
+        System.assertEquals('', result, 'Environment must be empty string');
 
         result = SmartvideoController.getEnvironment(SmartvideoController.SETTINGS_ENV);
 
-        System.assertNotEquals(null, result);
-        System.assertEquals('test value', result);
+        System.assertNotEquals(null, result, 'Environment should not be NULL');
+        System.assertEquals('test value', result, 'Environment contain wrong value');
 
         Test.stopTest();
     }
@@ -40,15 +40,15 @@ private class SmartvideoControllerTest {
 
         Boolean result = SmartvideoController.pushEvent(null, null);
 
-        System.assertEquals(false, result);
+        System.assertEquals(false, result, 'Pushing NULL event with NULL payload should not succeed');
 
         result = SmartvideoController.pushEvent('test', null);
 
-        System.assertEquals(false, result);
+        System.assertEquals(false, result, 'Pushing event with NULL payload should not succeed');
 
         result = SmartvideoController.pushEvent('test', '{id:123}');
 
-        System.assertEquals(true, result);
+        System.assertEquals(true, result, 'Pushing event with proper payload should succeed');
 
         Test.stopTest();
     }
@@ -70,7 +70,7 @@ private class SmartvideoControllerTest {
             hasExeption = true;
         }
 
-        System.assertEquals(false, hasExeption);
+        System.assertEquals(false, hasExeption, 'Logging error should not produce exceptions');
 
         Test.stopTest();
     }
