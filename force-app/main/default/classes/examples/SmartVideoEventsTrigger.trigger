@@ -13,7 +13,7 @@ trigger SmartVideoEventsTrigger on SmartvideoEvent__e (after insert) {
         if (event.Payload__c != null) {
             // deserialize the payload to a map
             Map<String, Object> payload = (Map<String, Object>)JSON.deserializeUntyped(event.Payload__c);
-            System.debug(payload.get('email'));
+            System.debug(LoggingLevel.DEBUG, payload.get('email'));
         }
 
     }
