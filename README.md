@@ -112,3 +112,13 @@ This operation requires Salesforce Administrator.
     
     ![smartvideo](assets/smartvideo.png)
 
+### 3. Examples
+
+## 1. Handling all SmartVideo events and printing them into the debug log.
+
+Example code could be found in `force-app/main/default/classes/examples/SmartVideoEventTrigger.trigger`
+This is a trigger handler that will fire when our SmartVideo event is sent to all subscribers.
+It will dump the basic information to the debug log.
+Make sure you enable debug logs for `Automated Process`, otherwise nothing will be logged.
+The event payload is stored in the `Payload__c` field as a string that is JSON.
+In `Name__c` you will find the payload type or event name.
