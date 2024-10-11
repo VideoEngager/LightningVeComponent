@@ -7,29 +7,39 @@ private class SmartvideoControllerTest {
         String result = SmartvideoController.getVideoAppUrl();
 
         System.assertNotEquals(null, result, 'Video App Url should not be NULL');
-        System.assertEquals('https://videome.leadsecure.com/nextjs/single/smartvideo/?environment=test+value', result, 'Unexpected App url value');
+        String expectedUrl = 'https://videome.leadsecure.com/nextjs/single/smartvideo/?environment=generic&externalId=external-id-test-value&pak=api-key-test-value&email='
+            + EncodingUtil.urlEncode(SmartvideoController.getIdentifier(), 'UTF-8')
+            + '&isPopup=true';
+
+        System.assertEquals(expectedUrl, result, 'Unexpected App url value');
+        
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void getSettingsTest() {
+        Test.startTest();
+
+        Map<String, String> result = SmartvideoController.getSettings();
+        System.assertNotEquals(null, result, 'Settings should not be NULL');
+
+        System.assertNotEquals(null, result.get(SmartvideoController.SETTINGS_ENV), 'Environment Settings should not be NULL');
+        System.assertNotEquals(null, result.get(SmartvideoController.SETTINGS_EXT_ID), 'External ID Settings should not be NULL');
+        System.assertNotEquals(null, result.get(SmartvideoController.SETTINGS_API_KEY), 'API Key Settings should not be NULL');
+
+        System.assertEquals(3, result.size(), 'Settings should contain 3 entries');
 
         Test.stopTest();
     }
 
     @IsTest
-    static void getEnvironmentTest() {
+    static void getIdentifierTest() {
         Test.startTest();
 
-        String result = SmartvideoController.getEnvironment(null);
+        String result = SmartvideoController.getIdentifier();
 
-        System.assertNotEquals(null, result, 'Environment should not be NULL');
-        System.assertEquals('', result, 'Environment must be empty string');
-
-        result = SmartvideoController.getEnvironment('test');
-
-        System.assertNotEquals(null, result, 'Environment should not be NULL');
-        System.assertEquals('', result, 'Environment must be empty string');
-
-        result = SmartvideoController.getEnvironment(SmartvideoController.SETTINGS_ENV);
-
-        System.assertNotEquals(null, result, 'Environment should not be NULL');
-        System.assertEquals('test value', result, 'Environment contain wrong value');
+        System.assertNotEquals(null, result, 'Identifier should not be NULL');
+        System.assertEquals(UserInfo.getOrganizationId() + UserInfo.getUserEmail(), result, 'Identifier has unexpected value');
 
         Test.stopTest();
     }
