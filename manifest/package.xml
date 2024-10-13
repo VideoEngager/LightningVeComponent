@@ -39,5 +39,5 @@
         <members>utilityBarApi</members>
         <name>LightningComponentBundle</name>
     </types>
-    <version>58.0</version>
+    <version>62.0</version>
 </Package>
