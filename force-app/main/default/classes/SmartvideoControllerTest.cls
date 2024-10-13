@@ -1,10 +1,29 @@
 @IsTest
 private class SmartvideoControllerTest {
+    private class MockSmartvideoSettingService extends SmartvideoSettingService {        
+        private Smartvideo_Setting__mdt mockSetting;
+
+        public MockSmartvideoSettingService(Smartvideo_Setting__mdt mockSetting) {
+            this.mockSetting = mockSetting;
+        }
+
+        public override Smartvideo_Setting__mdt getSettings() {
+            return mockSetting;
+        }
+    }
+
     @IsTest
-    static void getVideoAppUrlTest() {
+    static void getVideoAppUrlGenericTest() {
         Test.startTest();
 
-        String result = SmartvideoController.getVideoAppUrl();
+        Smartvideo_Setting__mdt mockSetting = new Smartvideo_Setting__mdt(
+            environment__c = 'generic',
+            external_id__c = 'external-id-test-value',
+            api_key__c = 'api-key-test-value',
+            use_custom_permissions__c = false
+        );
+
+        String result = SmartvideoController.getVideoAppUrl(new MockSmartvideoSettingService(mockSetting));
 
         System.assertNotEquals(null, result, 'Video App Url should not be NULL');
         String expectedUrl = 'https://videome.leadsecure.com/nextjs/single/smartvideo/?environment=generic&externalId=external-id-test-value&pak=api-key-test-value&email='
@@ -17,17 +36,38 @@ private class SmartvideoControllerTest {
     }
 
     @IsTest
-    static void getSettingsTest() {
+    static void getVideoAppUrlOtherTest() {
         Test.startTest();
 
-        Map<String, String> result = SmartvideoController.getSettings();
-        System.assertNotEquals(null, result, 'Settings should not be NULL');
+        Smartvideo_Setting__mdt mockSetting = new Smartvideo_Setting__mdt(
+            environment__c = 'environment-test-value',
+            external_id__c = 'external-id-test-value',
+            api_key__c = 'api-key-test-value',
+            use_custom_permissions__c = false
+        );
 
-        System.assertNotEquals(null, result.get(SmartvideoController.SETTINGS_ENV), 'Environment Settings should not be NULL');
-        System.assertNotEquals(null, result.get(SmartvideoController.SETTINGS_EXT_ID), 'External ID Settings should not be NULL');
-        System.assertNotEquals(null, result.get(SmartvideoController.SETTINGS_API_KEY), 'API Key Settings should not be NULL');
+        String result = SmartvideoController.getVideoAppUrl(new MockSmartvideoSettingService(mockSetting));
 
-        System.assertEquals(3, result.size(), 'Settings should contain 3 entries');
+        System.assertNotEquals(null, result, 'Video App Url should not be NULL');
+        String expectedUrl = 'https://videome.leadsecure.com/nextjs/single/smartvideo/?environment=environment-test-value&isPopup=true';
+
+        System.assertEquals(expectedUrl, result, 'Unexpected App url value');
+        
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void getVideoAppUrlNoSettingsTest() {
+        Test.startTest();
+
+        SmartvideoSettingService mockService = new MockSmartvideoSettingService(null);
+        
+        try {
+            SmartvideoController.getVideoAppUrl(mockService);
+            System.assert(false, 'Exception was expected but not thrown.');
+        } catch (SmartvideoController.IncompleteSettingsException e) {
+            System.assert(true, 'Incomplete settings exception was correctly thrown.');
+        }
 
         Test.stopTest();
     }
@@ -40,6 +80,24 @@ private class SmartvideoControllerTest {
 
         System.assertNotEquals(null, result, 'Identifier should not be NULL');
         System.assertEquals(UserInfo.getOrganizationId() + UserInfo.getUserEmail(), result, 'Identifier has unexpected value');
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void hasAccessTest() {
+        Test.startTest();
+
+        Boolean result = SmartvideoController.hasAccess(
+            new Smartvideo_Setting__mdt(
+                environment__c = 'generic',
+                external_id__c = 'external-id-test-value',
+                api_key__c = 'api-key-test-value',
+                use_custom_permissions__c = true
+            )
+        );
+
+        System.assertNotEquals(null, result);
 
         Test.stopTest();
     }

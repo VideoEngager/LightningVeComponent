@@ -3,6 +3,8 @@
     <types>
         <members>SmartvideoController</members>
         <members>SmartvideoControllerTest</members>
+        <members>SmartvideoSettingService</members>
+        <members>SmartvideoSettingServiceTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -10,7 +12,17 @@
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
-        <members>Smartvideo_Setting.environment</members>
+        <members>SmartvideoEvent__e.Name__c</members>
+        <members>SmartvideoEvent__e.Payload__c</members>
+        <members>Smartvideo_Setting__mdt.api_key__c</members>
+        <members>Smartvideo_Setting__mdt.environment__c</members>
+        <members>Smartvideo_Setting__mdt.external_id__c</members>
+        <members>Smartvideo_Setting__mdt.use_custom_permissions__c</members>
+        <members>Smartvideo_Setting__mdt.value__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Smartvideo_Setting.Settings</members>
         <name>CustomMetadata</name>
     </types>
     <types>
@@ -19,7 +31,8 @@
         <name>CustomObject</name>
     </types>
     <types>
-        <name>CustomField</name>
+        <members>CanUseSmartVideo</members>
+        <name>CustomPermission</name>
     </types>
     <types>
         <members>smartvideoCore</members>

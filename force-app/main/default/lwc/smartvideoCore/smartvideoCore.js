@@ -7,6 +7,7 @@ export default class SmartvideoCore extends LightningElement {
     isInitialized = false;
     isLoading = true;
     appUrl = "";
+    errorMessage = undefined;
     utilityBarApi = new UtilityBarApi(null);
 
     @wire(getVideoAppUrl)
@@ -22,6 +23,10 @@ export default class SmartvideoCore extends LightningElement {
 
             this.appUrl = data;
         } else if (error) {
+            if (['SmartvideoController.UnavailableException', 'SmartvideoController.IncompleteSettingsException'].includes(error?.body?.exceptionType)) {
+                this.errorMessage = error.body?.message || 'An unhandled error occurred';
+            }
+
             console.log("Error in getVideoAppUrl", error);
         }
     }

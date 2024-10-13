@@ -2,36 +2,48 @@
  * @description Controller for serving Smartvideo LWC
  */
 public with sharing class SmartvideoController {
-    public static final String SETTINGS_ENV = 'environment';
-    public static final String SETTINGS_EXT_ID = 'external_id';
-    public static final String SETTINGS_API_KEY = 'api_key';
     public static final String ENV_GENERIC = 'generic';
 
     public class IncompleteSettingsException extends Exception {}
+    public class UnavailableException extends Exception {}
 
     /**
      * @description Retrieve Smartvideo App URL
      * @return String URL
      */
     @AuraEnabled(Cacheable=true)
-    public static String getVideoAppUrl() {
-        Map<String, String> settings = getSettings();
-        if (!settings.containsKey(SETTINGS_ENV) || !settings.containsKey(SETTINGS_EXT_ID) || !settings.containsKey(SETTINGS_API_KEY)) {
-            throw new IncompleteSettingsException('Incomplete settings');
+    public static String getVideoAppUrl(SmartvideoSettingService settingService) {
+        Smartvideo_Setting__mdt settings = settingService == null ? (new SmartvideoSettingService()).getSettings() : settingService.getSettings();
+
+        if (settings == null) {
+            throw new IncompleteSettingsException('Incomplete settings. Please contact your Salesforce administrator.');
         }
 
-        Boolean isEnvGeneric = settings.get(SETTINGS_ENV).toLowerCase() == ENV_GENERIC;
+        Boolean isEnvGeneric = settings.environment__c.toLowerCase() == ENV_GENERIC;
+
+        if (!hasAccess(settings)) {
+            throw new UnavailableException('This tool is not available for you. Please contact your Salesforce administrator.');
+        }
 
         return 'https://videome.leadsecure.com/nextjs/single/smartvideo/?environment='
-                + EncodingUtil.urlEncode(settings.get(SETTINGS_ENV), 'UTF-8')
+                + EncodingUtil.urlEncode(settings.environment__c, 'UTF-8')
                 + (isEnvGeneric ? (
                     '&externalId='
-                    + EncodingUtil.urlEncode(settings.get(SETTINGS_EXT_ID), 'UTF-8')
+                    + EncodingUtil.urlEncode(settings.external_id__c, 'UTF-8')
                     + '&pak='
-                    + EncodingUtil.urlEncode(settings.get(SETTINGS_API_KEY), 'UTF-8')
+                    + EncodingUtil.urlEncode(settings.api_key__c, 'UTF-8')
                     + '&email='
                     + EncodingUtil.urlEncode(getIdentifier(), 'UTF-8')
                 ) : '') + '&isPopup=true';
+    }
+
+    @TestVisible
+    private static Boolean hasAccess(Smartvideo_Setting__mdt settings) {
+        if (settings.use_custom_permissions__c) {
+            return System.FeatureManagement.checkPermission('CanUseSmartVideo');
+        }
+
+        return true;
     }
 
     /**
@@ -44,46 +56,6 @@ public with sharing class SmartvideoController {
         String orgId = UserInfo.getOrganizationId();
 
         return orgId + userEmail;
-    }
-
-    /**
-     * @description Retrieve settings from custom metadata type Smartvideo_Setting
-     * @return Map<String, String> - A map containing the settings with their respective values
-     */
-    @TestVisible
-    private static Map<String, String> getSettings() {
-        Map<String, String> result = new Map<String, String>();
-
-        List<Smartvideo_Setting__mdt> settings = [
-            SELECT DeveloperName, value__c
-            FROM Smartvideo_Setting__mdt
-            WITH SECURITY_ENFORCED
-        ];
-
-        if (Test.isRunningTest()) {
-            settings.clear();
-            settings.add(new Smartvideo_Setting__mdt(
-                    Label = 'Environment',
-                    DeveloperName = SETTINGS_ENV,
-                    value__c = 'generic'
-            ));
-            settings.add(new Smartvideo_Setting__mdt(
-                Label = 'External ID',
-                DeveloperName = SETTINGS_EXT_ID,
-                value__c = 'external-id-test-value'
-            ));
-            settings.add(new Smartvideo_Setting__mdt(
-                Label = 'API Key',
-                DeveloperName = SETTINGS_API_KEY,
-                value__c = 'api-key-test-value'
-            ));
-        }
-
-        for(Smartvideo_Setting__mdt setting: settings) {
-            result.put(setting.DeveloperName, setting.value__c);
-        }
-
-        return result;
     }
 
     /**
