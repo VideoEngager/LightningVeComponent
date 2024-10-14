@@ -1,4 +1,15 @@
 <!-- Smartvideo Core -->
 <template>
-    <iframe onload={handleIframeOnLoad} style="width: 100%; height: 100%; border: 0;" allow="camera *;microphone *"></iframe>
+    <div if:true={errorMessage} class="slds-scoped-notification slds-media slds-media_center slds-theme_error" role="status">
+        <div class="slds-media__figure">
+        <span class="slds-icon_container slds-icon-utility-error" title="error">
+            <lightning-icon icon-name="utility:error" size="small" variant="inverse"> </lightning-icon>
+            <span class="slds-assistive-text">error</span>
+        </span>
+        </div>
+        <div class="slds-media__body">
+            <p>{errorMessage}</p>
+        </div>
+    </div>
+    <iframe if:false={errorMessage} onload={handleIframeOnLoad} style="width: 100%; height: 100%; border: 0;" allow="camera *;microphone *"></iframe>
 </template>
