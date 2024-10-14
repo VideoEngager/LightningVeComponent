@@ -18,7 +18,6 @@
         <members>Smartvideo_Setting__mdt.environment__c</members>
         <members>Smartvideo_Setting__mdt.external_id__c</members>
         <members>Smartvideo_Setting__mdt.use_custom_permissions__c</members>
-        <members>Smartvideo_Setting__mdt.value__c</members>
         <name>CustomField</name>
     </types>
     <types>
