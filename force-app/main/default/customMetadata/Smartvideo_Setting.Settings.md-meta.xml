@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>api_key__c</field>
-        <value xsi:type="xsd:string">e3a9a282-200e-faa6-f82d-8065d6795148</value>
+        <value xsi:type="xsd:string">-</value>
     </values>
     <values>
         <field>environment__c</field>
