@@ -1,13 +1,13 @@
 @IsTest
 private class SmartvideoControllerTest {
     private class MockSmartvideoSettingService extends SmartvideoSettingService {        
-        private Smartvideo_Setting__mdt mockSetting;
+        private SmartVideoSetting__mdt mockSetting;
 
-        public MockSmartvideoSettingService(Smartvideo_Setting__mdt mockSetting) {
+        public MockSmartvideoSettingService(SmartVideoSetting__mdt mockSetting) {
             this.mockSetting = mockSetting;
         }
 
-        public override Smartvideo_Setting__mdt getSettings() {
+        public override SmartVideoSetting__mdt getSettings() {
             return mockSetting;
         }
     }
@@ -16,7 +16,7 @@ private class SmartvideoControllerTest {
     static void getVideoAppUrlGenericTest() {
         Test.startTest();
 
-        Smartvideo_Setting__mdt mockSetting = new Smartvideo_Setting__mdt(
+        SmartVideoSetting__mdt mockSetting = new SmartVideoSetting__mdt(
             environment__c = 'generic',
             external_id__c = 'external-id-test-value',
             api_key__c = 'api-key-test-value',
@@ -39,7 +39,7 @@ private class SmartvideoControllerTest {
     static void getVideoAppUrlOtherTest() {
         Test.startTest();
 
-        Smartvideo_Setting__mdt mockSetting = new Smartvideo_Setting__mdt(
+        SmartVideoSetting__mdt mockSetting = new SmartVideoSetting__mdt(
             environment__c = 'environment-test-value',
             external_id__c = 'external-id-test-value',
             api_key__c = 'api-key-test-value',
@@ -89,7 +89,7 @@ private class SmartvideoControllerTest {
         Test.startTest();
 
         Boolean result = SmartvideoController.hasAccess(
-            new Smartvideo_Setting__mdt(
+            new SmartVideoSetting__mdt(
                 environment__c = 'generic',
                 external_id__c = 'external-id-test-value',
                 api_key__c = 'api-key-test-value',

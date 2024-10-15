@@ -5,7 +5,7 @@ private class SmartvideoSettingServiceTest {
         Test.startTest();
 
         SmartvideoSettingService service = new SmartvideoSettingService();
-        Smartvideo_Setting__mdt result = service.getSettings();
+        SmartVideoSetting__mdt result = service.getSettings();
 
         System.assertNotEquals(null, result);
 

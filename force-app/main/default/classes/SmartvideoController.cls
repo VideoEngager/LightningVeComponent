@@ -13,7 +13,7 @@ public with sharing class SmartvideoController {
      */
     @AuraEnabled(Cacheable=true)
     public static String getVideoAppUrl(SmartvideoSettingService settingService) {
-        Smartvideo_Setting__mdt settings = settingService == null ? (new SmartvideoSettingService()).getSettings() : settingService.getSettings();
+        SmartVideoSetting__mdt settings = settingService == null ? (new SmartvideoSettingService()).getSettings() : settingService.getSettings();
 
         if (settings == null) {
             throw new IncompleteSettingsException('Incomplete settings. Please contact your Salesforce administrator.');
@@ -38,7 +38,7 @@ public with sharing class SmartvideoController {
     }
 
     @TestVisible
-    private static Boolean hasAccess(Smartvideo_Setting__mdt settings) {
+    private static Boolean hasAccess(SmartVideoSetting__mdt settings) {
         if (settings.use_custom_permissions__c) {
             return System.FeatureManagement.checkPermission('CanUseSmartVideo');
         }

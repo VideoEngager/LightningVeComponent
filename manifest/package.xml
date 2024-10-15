@@ -12,21 +12,21 @@
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
+        <members>SmartVideoSetting__mdt.api_key__c</members>
+        <members>SmartVideoSetting__mdt.environment__c</members>
+        <members>SmartVideoSetting__mdt.external_id__c</members>
+        <members>SmartVideoSetting__mdt.use_custom_permissions__c</members>
         <members>SmartvideoEvent__e.Name__c</members>
         <members>SmartvideoEvent__e.Payload__c</members>
-        <members>Smartvideo_Setting__mdt.api_key__c</members>
-        <members>Smartvideo_Setting__mdt.environment__c</members>
-        <members>Smartvideo_Setting__mdt.external_id__c</members>
-        <members>Smartvideo_Setting__mdt.use_custom_permissions__c</members>
         <name>CustomField</name>
     </types>
     <types>
-        <members>Smartvideo_Setting.Settings</members>
+        <members>SmartVideoSetting.Settings</members>
         <name>CustomMetadata</name>
     </types>
     <types>
+        <members>SmartVideoSetting__mdt</members>
         <members>SmartvideoEvent__e</members>
-        <members>Smartvideo_Setting__mdt</members>
         <name>CustomObject</name>
     </types>
     <types>
