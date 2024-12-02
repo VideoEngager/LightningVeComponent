@@ -3,6 +3,8 @@
     <types>
         <members>SmartvideoController</members>
         <members>SmartvideoControllerTest</members>
+        <members>SmartvideoSettingService</members>
+        <members>SmartvideoSettingServiceTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -10,21 +12,31 @@
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
-        <members>Smartvideo_Setting.environment</members>
+        <members>SmartVideoSetting__mdt.api_key__c</members>
+        <members>SmartVideoSetting__mdt.environment__c</members>
+        <members>SmartVideoSetting__mdt.external_id__c</members>
+        <members>SmartVideoSetting__mdt.use_custom_permissions__c</members>
+        <members>SmartvideoEvent__e.Name__c</members>
+        <members>SmartvideoEvent__e.Payload__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>SmartVideoSetting.Settings</members>
         <name>CustomMetadata</name>
     </types>
     <types>
+        <members>SmartVideoSetting__mdt</members>
         <members>SmartvideoEvent__e</members>
-        <members>Smartvideo_Setting__mdt</members>
         <name>CustomObject</name>
     </types>
     <types>
-        <name>CustomField</name>
+        <members>CanUseSmartVideo</members>
+        <name>CustomPermission</name>
     </types>
     <types>
         <members>smartvideoCore</members>
         <members>utilityBarApi</members>
         <name>LightningComponentBundle</name>
     </types>
-    <version>58.0</version>
+    <version>62.0</version>
 </Package>
