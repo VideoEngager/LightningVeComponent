@@ -12,6 +12,8 @@ Andrew Fawcett's solution for one click install
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
 </a>
 
+> **_NOTE:_** If you encounter an error like `Could not find the repository 'LightningVeComponent'. Ensure it is spelt correctly and that it is owned by 'VideoEngager'`, make sure that the `Repository` field contains only `LightningVeComponent`
+
 ## Manual via CLI
 
 ### In Dev/Sandbox org
@@ -74,7 +76,7 @@ Andrew Fawcett's solution for one click install
 
 ## Configuration
 
-### 1. SmartVideo settings (optional)
+### 1. SmartVideo settings (mandatory)
 
 This setting is optional and may only need to be changed if you have been instructed to do so. This operation requires Salesforce Administrator.
 
@@ -85,15 +87,25 @@ This setting is optional and may only need to be changed if you have been instru
 1. Locate `Smartvideo Setting` custom metadata type and click `Manage Records`
 
    ![smartvideo-settings](assets/smartvideo-cmdt.png)
-1. Locate record `Environment` and click `Edit`
-1. In the `Value` field you need to put the value you asked to change.
+1. Locate record `API Key`, click `edit` and put the provided API key into `Value`.
+1. Optional: Locate record `Environment`, click `Edit` and put provided value into `Value`
 
-### 2. Adding SmartVideo to Salesforce Utility Bar (mandatory)
+### 2. Setting up permissions (mandatory)
 
-This operation requires Salesforce Administrator.
+To perform this operation, you need Salesforce Administrator privileges.
 
-1. Login into your org
-1. Open Setup and search for `App manager` and click on result link.
+1. Log in to your Salesforce organization.
+1. Open Setup, search for `permission sets` and click on result.
+1. In the `Permission Sets` list, locate the `SmartVideo` permission set and click on it.
+1. Click the `Manage Assignments` button.
+1. To assign this permission set to a user, click `Add Assignmnet` and select the desired users. You can also modify existing assignments from the list.
+
+### 3. Adding SmartVideo to Salesforce Utility Bar (mandatory)
+
+To perform this operation, you need Salesforce Administrator privileges.
+
+1. Log in to your Salesforce organization.
+1. Open Setup, search for `App manager` and click on result.
 1. In `Lightning Experience App Manager` you should locate your target Application where you want to install this component. `App type` should be `Lightning`. Click `Edit` from action button on your App (For example `Sales`).
 1. In `Lightning App Builder` locate `App Settings` and choose `Utility Items (Desktop Only)`
 1. Click on `Add Utility Item` button and search for `smartvideo`.
