@@ -22,13 +22,18 @@ public with sharing class SmartvideoController {
 
         Boolean isEnvGeneric = settings.get(SETTINGS_ENV).toLowerCase() == ENV_GENERIC;
 
+        String apiKey = settings.get(SETTINGS_API_KEY);
+        if (isEnvGeneric && (String.isBlank(apiKey) || apiKey.length() != 36)) {
+            throw new IncompleteSettingsException('API key not set or invalid');
+        }
+
         return 'https://videome.leadsecure.com/nextjs/single/smartvideo/?environment='
                 + EncodingUtil.urlEncode(settings.get(SETTINGS_ENV), 'UTF-8')
                 + (isEnvGeneric ? (
                     '&externalId='
                     + EncodingUtil.urlEncode(settings.get(SETTINGS_EXT_ID), 'UTF-8')
                     + '&pak='
-                    + EncodingUtil.urlEncode(settings.get(SETTINGS_API_KEY), 'UTF-8')
+                    + EncodingUtil.urlEncode(apiKey, 'UTF-8')
                     + '&email='
                     + EncodingUtil.urlEncode(getIdentifier(), 'UTF-8')
                 ) : '') + '&isPopup=true';

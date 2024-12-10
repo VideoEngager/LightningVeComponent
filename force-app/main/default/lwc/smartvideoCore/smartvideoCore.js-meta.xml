@@ -2,6 +2,10 @@
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>57.0</apiVersion>
     <description>Smartvideo Core</description>
-    <isExposed>false</isExposed>
+    <isExposed>true</isExposed>
     <masterLabel>Smartvideo Core</masterLabel>
+    <targets>
+        <target>lightning__UtilityBar</target>
+        <target>lightning__AppPage</target>
+    </targets>
 </LightningComponentBundle>
