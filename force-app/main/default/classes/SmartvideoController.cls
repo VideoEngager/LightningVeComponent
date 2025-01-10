@@ -80,7 +80,7 @@ public with sharing class SmartvideoController {
             settings.add(new Smartvideo_Setting__mdt(
                 Label = 'API Key',
                 DeveloperName = SETTINGS_API_KEY,
-                value__c = 'api-key-test-value'
+                value__c = 'api-key-test-value-12345678901234567'
             ));
         }
 

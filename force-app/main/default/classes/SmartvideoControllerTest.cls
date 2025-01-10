@@ -7,7 +7,7 @@ private class SmartvideoControllerTest {
         String result = SmartvideoController.getVideoAppUrl();
 
         System.assertNotEquals(null, result, 'Video App Url should not be NULL');
-        String expectedUrl = 'https://videome.leadsecure.com/nextjs/single/smartvideo/?environment=generic&externalId=external-id-test-value&pak=api-key-test-value&email='
+        String expectedUrl = 'https://videome.leadsecure.com/nextjs/single/smartvideo/?environment=generic&externalId=external-id-test-value&pak=api-key-test-value-12345678901234567&email='
             + EncodingUtil.urlEncode(SmartvideoController.getIdentifier(), 'UTF-8')
             + '&isPopup=true';
 
