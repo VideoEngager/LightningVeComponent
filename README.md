@@ -16,12 +16,20 @@ Andrew Fawcett's solution for one click install
 
 ## Manual via CLI
 
-### In Dev/Sandbox org
+### In Dev/Sandbox/Prod org
 
-1. Authorize your dev/sandbox org with and set it an alias (**mydevorg**) if it is not:
+1. Authorize your org with and set it an alias (**myorg**) if it is not:
     ```
-    sf org login web -d -a mydevorg
+    sf org login web -d -a myorg
     ```
+
+    Optionally you can add your instance url:
+
+    ```
+    sf org login web -d -a myorg --instance-url https://........my.salesforce.com/
+    ```
+
+    [Read more.](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_auth_web_flow.htm)
 
 1. Clone the repository:
 
@@ -29,18 +37,26 @@ Andrew Fawcett's solution for one click install
     git clone https://github.com/VideoEngager/LightningVeComponent.git
     cd LightningVeComponent
     ```
-1. Push the code to your org (**mydevorg**):
+1. Push the code to your org (**myorg**):
 
     ```
-    sf project deploy start -o mydevorg
+    sf project deploy start -o myorg
     ```
 
-1. Open the org from CLI (**mydevorg**):
+    Optionally, you can limit the tests to the ones in this project with the following command:
 
     ```
-    sf org open -o mydevorg
+    sf project deploy start -o myorg -l RunSpecifiedTests -t SmartvideoControllerTest
     ```
 
+    [Read more.](https://developer.salesforce.com/docs/atlas.en-us.254.0.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_project_commands_unified.htm#cli_reference_project_deploy_start_unified)
+
+1. Open the org from CLI (**myorg**):
+
+    ```
+    sf org open -o myorg
+    ```
+    [Read more.](https://developer.salesforce.com/docs/atlas.en-us.254.0.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_org_commands_unified.htm#cli_reference_org_open_unified)
 ### In a Scratch Org
 
 1. Authorize your devhub org with and set it an alias (**mydevhub**):
