@@ -10,22 +10,18 @@ export default class SmartvideoCore extends LightningElement {
     utilityBarApi = new UtilityBarApi(null);
     errorMessage = undefined;
 
-    @wire(getVideoAppUrl)
-    getVideoAppUrl({ data, error }) {
-        this.isLoading = false;
-
-        if (data) {
+    setVideoAppUrl(url) {
+        if (url) {
             const targetElement = this.template.querySelector('iframe');
 
             if (targetElement) {
-                targetElement.src = this.processUrl(data);
+                targetElement.src = this.processUrl(url);
             }
 
-            this.appUrl = data;
-        } else if (error) {
-            this.errorMessage = error.body?.message || 'An unhandled error occurred';
-            console.log("Error in getVideoAppUrl", error, error?.body?.exceptionType);
+            this.appUrl = url;
         }
+
+        this.isLoading = false;
     }
 
     processUrl(url) {
@@ -37,7 +33,15 @@ export default class SmartvideoCore extends LightningElement {
         return urlObj.toString();
     }
     connectedCallback() {
+        this.isLoading = true;
         this.oneTimeInitialization();
+
+        getVideoAppUrl().then(resultUrl => {
+            this.setVideoAppUrl(resultUrl)
+        }).catch(error => {
+            this.errorMessage = error.body?.message || 'An unhandled error occurred';
+            console.log("Error in getVideoAppUrl", error, error?.body?.exceptionType);
+        });
     }
 
     oneTimeInitialization() {
