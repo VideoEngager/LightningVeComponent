@@ -11,9 +11,35 @@ trigger SmartVideoEventsTrigger on SmartvideoEvent__e (after insert) {
         System.debug(LoggingLevel.DEBUG, 'Payload: ' + event.Payload__c);
 
         if (event.Payload__c != null) {
-            // deserialize the payload to a map
-            Map<String, Object> payload = (Map<String, Object>)JSON.deserializeUntyped(event.Payload__c);
-            System.debug(LoggingLevel.DEBUG, payload.get('email'));
+            // deserialize the payload to a SmartVideoEvent object
+            SmartVideoEvent payload = SmartVideoEvent.parse(event.Payload__c);
+            System.debug(LoggingLevel.DEBUG, 'Payload: ' + payload);
+            
+
+            if (payload != null && payload.tabInfo != null && event.Name__c == 'FINISHED') {
+                // create a new Task record for the call
+                try {
+                    Task callTask = new Task();
+                    String objectName = payload.tabInfo.pageReference.attributes.objectApiName;
+                    
+                    if (objectName == 'Contact' || objectName == 'Lead') {
+                        callTask.WhoId = payload.tabInfo.recordId;
+                    } else {
+                        callTask.WhatId = payload.tabInfo.recordId;
+                    }
+
+                    callTask.Subject = 'SmartVideo Call';
+                    callTask.Description = 'SmartVideo Call with duration ' + payload.smartVideo.attributes.totalTalkTime + ' seconds';
+                    callTask.Type = 'Call';
+                    callTask.Status = 'Completed';
+                    callTask.TaskSubtype = 'Call';
+                    callTask.CallType = 'Outbound';
+
+                    insert callTask;
+                } catch (Exception e) {
+                    System.debug(LoggingLevel.ERROR, 'Error creating Task: ' + e.getMessage());
+                }
+            }
         }
 
     }
