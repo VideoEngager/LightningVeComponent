@@ -5,9 +5,14 @@ public with sharing class SmartvideoController {
     public static final String SETTINGS_ENV = 'environment';
     public static final String SETTINGS_EXT_ID = 'external_id';
     public static final String SETTINGS_API_KEY = 'api_key';
+    public static final String SETTINGS_TALKDESK_ID = 'talkdesk_installation_id';
     public static final String ENV_GENERIC = 'generic';
+    public static final String ENV_TALKDESK = 'talkdesk';
 
     public class IncompleteSettingsException extends Exception {}
+
+    @TestVisible
+    private static string overrideEnv = null;
 
     /**
      * @description Retrieve Smartvideo App URL
@@ -16,17 +21,44 @@ public with sharing class SmartvideoController {
     @AuraEnabled(Cacheable=true)
     public static String getVideoAppUrl() {
         Map<String, String> settings = getSettings();
-        if (!settings.containsKey(SETTINGS_ENV) || !settings.containsKey(SETTINGS_EXT_ID) || !settings.containsKey(SETTINGS_API_KEY)) {
+        // check if we need to override environment settings
+        if (overrideEnv != null) {
+            settings.put(SETTINGS_ENV, overrideEnv);
+        }
+
+        if (!settings.containsKey(SETTINGS_ENV)) {
             throw new IncompleteSettingsException('Incomplete settings');
         }
 
         Boolean isEnvGeneric = settings.get(SETTINGS_ENV).toLowerCase() == ENV_GENERIC;
-
+        Boolean isEnvTalkdesk = settings.get(SETTINGS_ENV).toLowerCase() == ENV_TALKDESK;
         String apiKey = settings.get(SETTINGS_API_KEY);
-        if (isEnvGeneric && (String.isBlank(apiKey) || apiKey.length() != 36)) {
-            throw new IncompleteSettingsException('API key not set or invalid');
-        }
+        String talkdeskId = settings.get(SETTINGS_TALKDESK_ID);
 
+        if (isEnvGeneric) {
+            if  (!settings.containsKey(SETTINGS_EXT_ID)) {
+                throw new IncompleteSettingsException('Incomplete settings: external_id is missing');
+            }
+
+            if (!settings.containsKey(SETTINGS_API_KEY)) {
+                throw new IncompleteSettingsException('Incomplete settings: api_key is missing');
+            }
+
+            if (apiKey.length() != 36) {
+                throw new IncompleteSettingsException('API key is invalid');
+            }
+        } else if (isEnvTalkdesk) {
+            if (String.isEmpty(talkdeskId)) {
+                throw new IncompleteSettingsException('Incomplete settings: talkdesk-installation-id is missing');
+            }
+
+            if (talkdeskId.length() != 32) {
+                throw new IncompleteSettingsException('Talkdesk Installation ID is invalid');
+            }
+        } else {
+            throw new IncompleteSettingsException('Invalid environment setting');
+        }
+        
         return 'https://videome.leadsecure.com/nextjs/single/smartvideo/?environment='
                 + EncodingUtil.urlEncode(settings.get(SETTINGS_ENV), 'UTF-8')
                 + (isEnvGeneric ? (
@@ -36,7 +68,9 @@ public with sharing class SmartvideoController {
                     + EncodingUtil.urlEncode(apiKey, 'UTF-8')
                     + '&email='
                     + EncodingUtil.urlEncode(getIdentifier(), 'UTF-8')
-                ) : '') + '&isPopup=true';
+                ) : (isEnvTalkdesk ? '&installationId='
+                        + EncodingUtil.urlEncode(settings.get(SETTINGS_TALKDESK_ID), 'UTF-8') : '')
+                ) + '&isPopup=true';
     }
 
     /**
@@ -81,6 +115,12 @@ public with sharing class SmartvideoController {
                 Label = 'API Key',
                 DeveloperName = SETTINGS_API_KEY,
                 value__c = 'api-key-test-value-12345678901234567'
+            ));
+
+            settings.add(new Smartvideo_Setting__mdt(
+                Label = 'Talkdesk Installation ID',
+                DeveloperName = SETTINGS_TALKDESK_ID,
+                value__c = 'talkdesk-installation-id---value'
             ));
         }
 
