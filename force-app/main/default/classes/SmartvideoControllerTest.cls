@@ -12,6 +12,25 @@ private class SmartvideoControllerTest {
             + '&isPopup=true';
 
         System.assertEquals(expectedUrl, result, 'Unexpected App url value');
+
+        SmartvideoController.overrideEnv = 'talkdesk';
+        result = SmartvideoController.getVideoAppUrl();
+
+        System.assertNotEquals(null, result, 'Video App Url should not be NULL');
+        expectedUrl = 'https://videome.leadsecure.com/nextjs/single/smartvideo/?environment=talkdesk&installationId=talkdesk-installation-id---value&isPopup=true';
+
+        System.assertEquals(expectedUrl, result, 'Unexpected App url value');
+
+        SmartvideoController.overrideEnv = 'invalid';
+        Boolean hasException = false;
+
+        try {
+            result = SmartvideoController.getVideoAppUrl();
+        } catch (Exception e) {
+            hasException = true;
+        }
+
+        System.assertEquals(true, hasException, 'Invalid environment setting should throw an exception');
         
         Test.stopTest();
     }
@@ -26,8 +45,9 @@ private class SmartvideoControllerTest {
         System.assertNotEquals(null, result.get(SmartvideoController.SETTINGS_ENV), 'Environment Settings should not be NULL');
         System.assertNotEquals(null, result.get(SmartvideoController.SETTINGS_EXT_ID), 'External ID Settings should not be NULL');
         System.assertNotEquals(null, result.get(SmartvideoController.SETTINGS_API_KEY), 'API Key Settings should not be NULL');
+        System.assertNotEquals(null, result.get(SmartvideoController.SETTINGS_TALKDESK_ID), 'Talkdesk ID Settings should not be NULL');
 
-        System.assertEquals(3, result.size(), 'Settings should contain 3 entries');
+        System.assertEquals(4, result.size(), 'Settings should contain 4 entries');
 
         Test.stopTest();
     }
