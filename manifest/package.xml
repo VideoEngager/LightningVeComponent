@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>FocusedTabInfo</members>
+        <members>SmartVideoEvent</members>
+        <members>SmartVideoEventTest</members>
+        <members>SmartVideoStruct</members>
         <members>SmartvideoController</members>
         <members>SmartvideoControllerTest</members>
         <name>ApexClass</name>
@@ -10,7 +14,16 @@
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
+        <members>SmartvideoEvent__e.Name__c</members>
+        <members>SmartvideoEvent__e.Payload__c</members>
+        <members>Smartvideo_Setting__mdt.value__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Smartvideo_Setting.api_key</members>
         <members>Smartvideo_Setting.environment</members>
+        <members>Smartvideo_Setting.external_id</members>
+        <members>Smartvideo_Setting.talkdesk_installation_id</members>
         <name>CustomMetadata</name>
     </types>
     <types>
@@ -19,12 +32,13 @@
         <name>CustomObject</name>
     </types>
     <types>
-        <name>CustomField</name>
-    </types>
-    <types>
         <members>smartvideoCore</members>
         <members>utilityBarApi</members>
         <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>SmartVideo</members>
+        <name>PermissionSet</name>
     </types>
     <version>58.0</version>
 </Package>

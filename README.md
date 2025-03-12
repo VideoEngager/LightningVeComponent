@@ -105,6 +105,7 @@ This setting is optional and may only need to be changed if you have been instru
    ![smartvideo-settings](assets/smartvideo-cmdt.png)
 1. Locate record `API Key`, click `edit` and put the provided API key into `Value`.
 1. Optional: Locate record `Environment`, click `Edit` and put provided value into `Value`
+1. Optional: Talkdesk setup requires `Environment` to be `talkdesk` and `Talkdesk installation ID` to be populated accordingly.
 
 ### 2. Setting up permissions (mandatory)
 
