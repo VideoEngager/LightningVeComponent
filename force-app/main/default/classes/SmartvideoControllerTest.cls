@@ -21,7 +21,7 @@ private class SmartvideoControllerTest {
 
         System.assertEquals(expectedUrl, result, 'Unexpected App url value');
 
-        SmartvideoController.overrideEnv = 'invalid';
+        SmartvideoController.overrideEnv = 'some-environment-value';
         Boolean hasException = false;
 
         try {
@@ -30,7 +30,10 @@ private class SmartvideoControllerTest {
             hasException = true;
         }
 
-        System.assertEquals(true, hasException, 'Invalid environment setting should throw an exception');
+        System.assertEquals(false, hasException, 'Arbitrary environment setting should not throw an exception');
+
+        expectedUrl = 'https://videome.leadsecure.com/nextjs/single/smartvideo/?environment=some-environment-value&isPopup=true';
+        System.assertEquals(expectedUrl, result, 'Unexpected App url value');
         
         Test.stopTest();
     }

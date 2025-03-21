@@ -55,8 +55,6 @@ public with sharing class SmartvideoController {
             if (talkdeskId.length() != 32) {
                 throw new IncompleteSettingsException('Talkdesk Installation ID is invalid');
             }
-        } else {
-            throw new IncompleteSettingsException('Invalid environment setting');
         }
         
         return 'https://videome.leadsecure.com/nextjs/single/smartvideo/?environment='
