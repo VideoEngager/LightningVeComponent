@@ -70,7 +70,7 @@ public with sharing class SmartvideoController {
                     + EncodingUtil.urlEncode(getIdentifier(), 'UTF-8')
                 ) : (isEnvTalkdesk ? '&installationId='
                         + EncodingUtil.urlEncode(settings.get(SETTINGS_TALKDESK_ID), 'UTF-8') : '')
-                ) + '&isPopup=true';
+                ) + '&isPopup=true&authPopup';
     }
 
     /**
