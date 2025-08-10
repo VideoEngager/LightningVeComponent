@@ -103,6 +103,7 @@ public with sharing class SmartvideoController {
    *       For example, if you have a setting called 'arbitrary_setting', it will
    *       be added to the URL as '&arbitrary_setting=value'.
    */
+  @TestVisible
   private static String getAdditionalParameters() {
     Map<String, String> settings = getSettings();
     String additionalParams = '';

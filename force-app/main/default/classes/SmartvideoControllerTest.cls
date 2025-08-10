@@ -83,6 +83,24 @@ private class SmartvideoControllerTest {
   }
 
   @IsTest
+  static void getAdditionalParametersTest() {
+    Test.startTest();
+
+    String result = SmartvideoController.getAdditionalParameters();
+    System.assertNotEquals(
+      null,
+      result,
+      'Additional parameters should not be NULL'
+    );
+    System.assert(
+      result.contains('arbitrary_setting=arbitrary-value%26'),
+      'Unexpected additional parameters value'
+    );
+
+    Test.stopTest();
+  }
+
+  @IsTest
   static void getIdentifierTest() {
     Test.startTest();
 
