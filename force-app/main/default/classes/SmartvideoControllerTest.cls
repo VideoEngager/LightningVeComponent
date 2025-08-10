@@ -136,7 +136,7 @@ private class SmartvideoControllerTest {
       'Pushing event with NULL payload should not succeed'
     );
 
-    result = SmartvideoController.pushEvent('test', '{id:123}');
+    result = SmartvideoController.pushEvent('test', '{"id":123}');
 
     System.assertEquals(
       true,
